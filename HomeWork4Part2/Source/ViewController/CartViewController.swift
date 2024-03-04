@@ -12,6 +12,7 @@ class CartViewController: UIViewController {
     // MARK: - IBOutlet
     @IBOutlet weak var checkLabel: UILabel!
     @IBOutlet weak var buyButton: UIButton!
+
     
     // MARK: - Private
     private var cart = Cart()
@@ -39,9 +40,9 @@ class CartViewController: UIViewController {
         case 0:
             selectedCurrency = .uah
         case 1:
-            selectedCurrency = .uah
+            selectedCurrency = .usd
         case 2:
-            selectedCurrency = .uah
+            selectedCurrency = .eur
         default:
             break
         }
@@ -49,6 +50,16 @@ class CartViewController: UIViewController {
     }
     
     @IBAction func discountSegmentAction(_ segmentControl: UISegmentedControl) {
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            discount = .none
+        case 1:
+            discount = .regular
+        case 2:
+            discount = .vip
+        default:
+            discount = .none
+        }
         showChanges()
     }
     
@@ -58,6 +69,7 @@ class CartViewController: UIViewController {
         let serverProducts = responseFromServer.sourceProducts
         let dataMapper = DataMapper()
         cart.products = dataMapper.products(from: serverProducts)
+        
     }
     
     private func preparedCart() -> Cart {
